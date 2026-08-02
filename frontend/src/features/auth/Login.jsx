@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuth } from '../../context/AuthContext';
 import { Button } from '../../components/ui/button';
-import { GraduationCap, AlertCircle, Loader2 } from 'lucide-react';
+import { GraduationCap, AlertCircle, Loader2, Eye, EyeOff } from 'lucide-react';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email wajib diisi').email('Format email tidak valid'),
@@ -18,6 +18,7 @@ const Login = () => {
   const location = useLocation();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(loginSchema),
@@ -103,18 +104,27 @@ const Login = () => {
               <label htmlFor="password" className="block text-xs font-semibold uppercase tracking-wider text-[#5B6350] mb-2">
                 Kata Sandi
               </label>
-              <input
-                id="password"
-                type="password"
-                disabled={loading}
-                {...register('password')}
-                className={`block w-full rounded-lg border px-4 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#5B7553] ${
-                  errors.password 
-                    ? 'border-[#8B3A3A] focus:ring-[#8B3A3A]' 
-                    : 'border-[#E3DEC6] focus:border-[#5B7553] bg-[#F7F5F0]/50'
-                }`}
-                placeholder="••••••••"
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  disabled={loading}
+                  {...register('password')}
+                  className={`block w-full rounded-lg border pl-4 pr-10 py-3 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-[#5B7553] ${
+                    errors.password 
+                      ? 'border-[#8B3A3A] focus:ring-[#8B3A3A]' 
+                      : 'border-[#E3DEC6] focus:border-[#5B7553] bg-[#F7F5F0]/50'
+                  }`}
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(prev => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#5B6350] hover:text-[#1C2620] focus:outline-none cursor-pointer"
+                >
+                  {showPassword ? <EyeOff className="h-4.5 w-4.5" /> : <Eye className="h-4.5 w-4.5" />}
+                </button>
+              </div>
               {errors.password && (
                 <p className="mt-1.5 text-xs text-[#8B3A3A] flex items-center gap-1">
                   <AlertCircle className="h-3.5 w-3.5" />
