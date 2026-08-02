@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: 'Plus Jakarta Sans', sans-serif;
+    --font-sans: 'Inter', sans-serif;
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+    
+    --color-gold: #C9A876;
+    --color-terracotta: #8B3A3A;
+}
+
+:root {
+    --background: #F7F5F0;
+    --foreground: #1C2620;
+    --card: #ffffff;
+    --card-foreground: #1C2620;
+    --popover: #ffffff;
+    --popover-foreground: #1C2620;
+    --primary: #5B7553;
+    --primary-foreground: #F7F5F0;
+    --secondary: #E9E6DD;
+    --secondary-foreground: #1C2620;
+    --muted: #EDEAE2;
+    --muted-foreground: #5B6350;
+    --accent: #5B7553;
+    --accent-foreground: #F7F5F0;
+    --destructive: #8B3A3A;
+    --destructive-foreground: #F7F5F0;
+    --border: #E3DEC6;
+    --input: #E3DEC6;
+    --ring: #5B7553;
+    --chart-1: #5B7553;
+    --chart-2: #C9A876;
+    --chart-3: #8B3A3A;
+    --chart-4: #2D3A31;
+    --chart-5: #EADEC9;
+    --radius: 0.5rem;
+    --sidebar: #1C2620;
+    --sidebar-foreground: #EDEAE2;
+    --sidebar-primary: #5B7553;
+    --sidebar-primary-foreground: #F7F5F0;
+    --sidebar-accent: #2D3A31;
+    --sidebar-accent-foreground: #EDEAE2;
+    --sidebar-border: #2D3A31;
+    --sidebar-ring: #5B7553;
+}
+
+.dark {
+    --background: #121815;
+    --foreground: #EDEAE2;
+    --card: #1C2621;
+    --card-foreground: #EDEAE2;
+    --popover: #1C2621;
+    --popover-foreground: #EDEAE2;
+    --primary: #5B7553;
+    --primary-foreground: #F7F5F0;
+    --secondary: #2D3A33;
+    --secondary-foreground: #EDEAE2;
+    --muted: #2D3A33;
+    --muted-foreground: #A0A898;
+    --accent: #5B7553;
+    --accent-foreground: #EDEAE2;
+    --destructive: #8B3A3A;
+    --border: #2D3A33;
+    --input: #2D3A33;
+    --ring: #5B7553;
+    --chart-1: #5B7553;
+    --chart-2: #C9A876;
+    --chart-3: #8B3A3A;
+    --chart-4: #2D3A33;
+    --chart-5: #EADEC9;
+    --sidebar: #1C2621;
+    --sidebar-foreground: #EDEAE2;
+    --sidebar-primary: #5B7553;
+    --sidebar-primary-foreground: #F7F5F0;
+    --sidebar-accent: #2D3A33;
+    --sidebar-accent-foreground: #EDEAE2;
+    --sidebar-border: #2D3A33;
+    --sidebar-ring: #5B7553;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+  html {
+    @apply font-sans;
+    }
+}
+
+/* SIMKASAN Custom Dark Mode Specific Overrides */
+.dark {
+    /* Global Page bg and card bg overrides */
+    background-color: #121815 !important;
+}
+
+/* Card overrides */
+.dark .bg-white {
+    background-color: #1C2621 !important;
+}
+
+/* Muted or warm gray card blocks (like donezo styling headers/footers) */
+.dark .bg-\[\#F7F5F0\]\/30 {
+    background-color: rgba(18, 24, 21, 0.45) !important;
+}
+.dark .bg-\[\#F7F5F0\]\/60 {
+    background-color: rgba(28, 38, 33, 0.7) !important;
+}
+.dark .bg-\[\#F7F5F0\] {
+    background-color: #121815 !important;
+}
+
+/* Text overrides to prevent unreadable dark olive on dark background */
+.dark .text-\[\#1C2620\] {
+    color: #EDEAE2 !important;
+}
+.dark .text-\[\#5B6350\] {
+    color: #A0A898 !important;
+}
+
+/* Border overrides to make them dark-zaitun charcoal instead of cream */
+.dark .border-\[\#E3DEC6\] {
+    border-color: #2D3A33 !important;
+}
+.dark .border-b-\[\#E3DEC6\] {
+    border-bottom-color: #2D3A33 !important;
+}
+.dark .divide-\[\#E3DEC6\] > :not([hidden]) ~ :not([hidden]) {
+    border-color: #2D3A33 !important;
+}
+
+/* Table header grey override */
+.dark .bg-\[\#F7F5F0\] {
+    background-color: #121815 !important;
+}
+
+/* Hover style overrides */
+.dark .hover\:bg-\[\#F7F5F0\]\/20:hover {
+    background-color: rgba(91, 117, 83, 0.12) !important;
+}
+.dark .hover\:bg-\[\#F7F5F0\]\/60:hover {
+    background-color: rgba(45, 58, 51, 0.4) !important;
+}
+.dark .hover\:bg-\[\#F7F5F0\]\/65:hover {
+    background-color: rgba(45, 58, 51, 0.4) !important;
+}
+.dark .hover\:bg-\[\#F7F5F0\]:hover {
+    background-color: #2D3A33 !important;
+}
+
+/* Dialog content border and color overrides */
+.dark [role="dialog"] {
+    background-color: #1C2621 !important;
+    border-color: #2D3A33 !important;
+    color: #EDEAE2 !important;
+}
+
+/* General form select and option overrides */
+.dark select {
+    background-color: #121815 !important;
+    color: #EDEAE2 !important;
+    border-color: #2D3A33 !important;
+}
+.dark select option {
+    background-color: #1C2621 !important;
+    color: #EDEAE2 !important;
+}
+
+/* Input overrides */
+.dark input {
+    background-color: #121815/40 !important;
+    color: #EDEAE2 !important;
+    border-color: #2D3A33 !important;
+}
+.dark textarea {
+    background-color: #121815/40 !important;
+    color: #EDEAE2 !important;
+    border-color: #2D3A33 !important;
+}
