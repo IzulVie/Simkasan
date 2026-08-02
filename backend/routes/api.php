@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\NilaiController;
 use App\Http\Controllers\Api\SantriController;
 use App\Http\Controllers\Api\WaliSantriController;
 use App\Http\Controllers\Api\IuranController;
+use App\Http\Controllers\Api\RoleController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -52,5 +53,9 @@ Route::middleware('auth:sanctum')->group(function () {
         // Iuran Management
         Route::post('/iuran/generate', [IuranController::class, 'generate']);
         Route::put('/iuran/{id}/lunas', [IuranController::class, 'lunas']);
+
+        // Roles & Permissions Management
+        Route::get('/permissions', [RoleController::class, 'permissionsIndex']);
+        Route::apiResource('/roles', RoleController::class);
     });
 });

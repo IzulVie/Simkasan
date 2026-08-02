@@ -9,6 +9,7 @@ import Unauthorized from './features/auth/Unauthorized';
 import Dashboard from './features/dashboard/Dashboard';
 import MasterData from './features/dashboard/MasterData';
 import IuranPage from './features/iuran/IuranPage';
+import RolesPage from './features/roles/RolesPage';
 import AbsensiPage from './features/absensi/AbsensiPage';
 import HafalanPage from './features/hafalan/HafalanPage';
 import NilaiPage from './features/nilai/NilaiPage';
@@ -62,6 +63,14 @@ function AppContent() {
           element={
             <RouteGuard allowedRoles={['admin']}>
               <IuranPage />
+            </RouteGuard>
+          } 
+        />
+        <Route 
+          path="roles" 
+          element={
+            <RouteGuard allowedRoles={['admin']}>
+              <RolesPage />
             </RouteGuard>
           } 
         />

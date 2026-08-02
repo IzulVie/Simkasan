@@ -18,7 +18,8 @@ import {
   Settings,
   HelpCircle,
   Award,
-  Wallet
+  Wallet,
+  Shield
 } from 'lucide-react';
 import { Button } from './ui/button';
 
@@ -92,6 +93,11 @@ export const SidebarLayout = () => {
   const isAdmin = user?.roles?.includes('admin');
   const isUstadz = user?.roles?.includes('ustadz');
 
+  const hasPermission = (permission) => {
+    // Admin has master bypass for all permissions
+    return user?.permissions?.includes(permission) || isAdmin;
+  };
+
   const menuItems = [
     {
       title: 'Dashboard',
@@ -103,37 +109,43 @@ export const SidebarLayout = () => {
       title: 'Master Data',
       path: '/master-data',
       icon: Users,
-      show: isAdmin
+      show: hasPermission('menu_master_data')
     },
     {
       title: 'Iuran & Syahriah',
       path: '/iuran',
       icon: Wallet,
-      show: isAdmin
+      show: hasPermission('menu_iuran')
     },
     {
       title: 'Absensi',
       path: '/absensi',
       icon: CheckSquare,
-      show: isUstadz || isAdmin
+      show: hasPermission('menu_absensi')
     },
     {
       title: 'Hafalan & Tahfidz',
       path: '/hafalan',
       icon: BookOpen,
-      show: isUstadz || isAdmin
+      show: hasPermission('menu_hafalan')
     },
     {
       title: 'Nilai Akademik',
       path: '/nilai',
       icon: GraduationCap,
-      show: isUstadz || isAdmin
+      show: hasPermission('menu_nilai')
     },
     {
       title: 'Kegiatan & Jadwal',
       path: '/kegiatan',
       icon: Calendar,
-      show: isUstadz || isAdmin
+      show: hasPermission('menu_kegiatan')
+    },
+    {
+      title: 'Hak Akses & Role',
+      path: '/roles',
+      icon: Shield,
+      show: hasPermission('manage_roles')
     }
   ];
 

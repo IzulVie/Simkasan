@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
 
 class RoleAndUserSeeder extends Seeder
@@ -18,10 +19,37 @@ class RoleAndUserSeeder extends Seeder
         // Reset cached roles and permissions
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
+        // Create permissions
+        $permissions = [
+            'menu_master_data',
+            'menu_absensi',
+            'menu_hafalan',
+            'menu_nilai',
+            'menu_kegiatan',
+            'menu_iuran',
+            'manage_roles',
+        ];
+
+        foreach ($permissions as $permissionName) {
+            Permission::create(['name' => $permissionName, 'guard_name' => 'web']);
+        }
+
         // Create roles
         $adminRole = Role::create(['name' => 'admin', 'guard_name' => 'web']);
         $ustadzRole = Role::create(['name' => 'ustadz', 'guard_name' => 'web']);
         $waliRole = Role::create(['name' => 'wali', 'guard_name' => 'web']);
+
+        // Assign permissions
+        $adminRole->givePermissionTo(Permission::all());
+        
+        $teacherPermissions = [
+            'menu_absensi',
+            'menu_hafalan',
+            'menu_nilai',
+            'menu_kegiatan',
+        ];
+        $ustadzRole->givePermissionTo($teacherPermissions);
+        $waliRole->givePermissionTo($teacherPermissions);
 
         // Create users and assign roles
         $admin = User::create([

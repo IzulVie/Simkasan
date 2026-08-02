@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'roles' => $this->roles->pluck('name'),
+            'permissions' => $this->getAllPermissions()->pluck('name'),
             'santris' => $this->hasRole('wali') && $this->waliProfile ? $this->waliProfile->santris->map(function ($santri) {
                 return [
                     'id' => $santri->id,
