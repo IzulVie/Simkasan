@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useKegiatan } from '../kegiatan/useKegiatan';
+import { useIuran } from '../iuran/useIuran';
 import { Badge } from '../../components/ui/badge';
 import { 
   BookOpen, 
@@ -12,9 +13,15 @@ import {
   Loader2, 
   Calendar, 
   Settings, 
-  GraduationCap 
+  GraduationCap,
+  Wallet
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
+
+const NAMA_BULAN = [
+  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+];
 
 const WaliDashboard = () => {
   const { user } = useAuth();
@@ -32,6 +39,7 @@ const WaliDashboard = () => {
   }, [children, selectedChild]);
 
   const { activities, isLoading: loadingActivities } = useKegiatan();
+  const { iurans } = useIuran(selectedChild ? { santri_id: selectedChild.id } : {});
 
   const parentName = user?.name || 'Wali Santri';
 
@@ -152,32 +160,77 @@ const WaliDashboard = () => {
         </div>
       )}
 
-      {/* Child Information Profile Card */}
+      {/* Child Information Profile Card & Payment Status */}
       {selectedChild && (
-        <div className="bg-white dark:bg-[#1C2621] p-6 rounded-3xl border border-[#E3DEC6] dark:border-[#2D3A33] shadow-sm space-y-4 transition-colors duration-300">
-          <div className="flex items-center gap-2 pb-2 border-b border-[#E3DEC6]/60 dark:border-[#2D3A33]/60">
-            <User className="h-4.5 w-4.5 text-[#5B7553]" />
-            <h4 className="font-heading text-xs font-black uppercase tracking-wider text-[#1C2620] dark:text-[#EDEAE2]">Detail Profil Akademik Santri</h4>
+        <div className="space-y-6">
+          <div className="bg-white dark:bg-[#1C2621] p-6 rounded-3xl border border-[#E3DEC6] dark:border-[#2D3A33] shadow-sm space-y-4 transition-colors duration-300">
+            <div className="flex items-center gap-2 pb-2 border-b border-[#E3DEC6]/60 dark:border-[#2D3A33]/60">
+              <User className="h-4.5 w-4.5 text-[#5B7553]" />
+              <h4 className="font-heading text-xs font-black uppercase tracking-wider text-[#1C2620] dark:text-[#EDEAE2]">Detail Profil Akademik Santri</h4>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="space-y-1">
+                <span className="text-[9px] font-black uppercase tracking-wider text-[#5B6350] dark:text-[#A0A898] block">Nama Santri</span>
+                <span className="text-sm font-bold text-[#1C2620] dark:text-[#EDEAE2] block">{selectedChild.nama}</span>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[9px] font-black uppercase tracking-wider text-[#5B6350] dark:text-[#A0A898] block">Nomor Induk Santri (NIS)</span>
+                <span className="text-sm font-bold text-[#1C2620] dark:text-[#EDEAE2] block">{selectedChild.nis}</span>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[9px] font-black uppercase tracking-wider text-[#5B6350] dark:text-[#A0A898] block">Wali / Orang Tua</span>
+                <span className="text-sm font-bold text-[#1C2620] dark:text-[#EDEAE2] block">{parentName}</span>
+              </div>
+              <div className="space-y-1">
+                <span className="text-[9px] font-black uppercase tracking-wider text-[#5B6350] dark:text-[#A0A898] block">Kelas / Halaqah</span>
+                <span className="text-sm font-bold text-[#1C2620] dark:text-[#EDEAE2] block">
+                  {selectedChild.kelas ? selectedChild.kelas : 'Belum Ditentukan'}
+                </span>
+              </div>
+            </div>
           </div>
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="space-y-1">
-              <span className="text-[9px] font-black uppercase tracking-wider text-[#5B6350] dark:text-[#A0A898] block">Nama Santri</span>
-              <span className="text-sm font-bold text-[#1C2620] dark:text-[#EDEAE2] block">{selectedChild.nama}</span>
+
+          {/* Iuran & Syahriah Bulanan Card */}
+          <div className="bg-white dark:bg-[#1C2621] p-6 rounded-3xl border border-[#E3DEC6] dark:border-[#2D3A33] shadow-sm space-y-4 transition-colors duration-300">
+            <div className="flex items-center gap-2 pb-2 border-b border-[#E3DEC6]/60 dark:border-[#2D3A33]/60">
+              <Wallet className="h-4.5 w-4.5 text-[#5B7553]" />
+              <h4 className="font-heading text-xs font-black uppercase tracking-wider text-[#1C2620] dark:text-[#EDEAE2]">Status Iuran & Syahriah (Tahun 2026)</h4>
             </div>
-            <div className="space-y-1">
-              <span className="text-[9px] font-black uppercase tracking-wider text-[#5B6350] dark:text-[#A0A898] block">Nomor Induk Santri (NIS)</span>
-              <span className="text-sm font-bold text-[#1C2620] dark:text-[#EDEAE2] block">{selectedChild.nis}</span>
-            </div>
-            <div className="space-y-1">
-              <span className="text-[9px] font-black uppercase tracking-wider text-[#5B6350] dark:text-[#A0A898] block">Wali / Orang Tua</span>
-              <span className="text-sm font-bold text-[#1C2620] dark:text-[#EDEAE2] block">{parentName}</span>
-            </div>
-            <div className="space-y-1">
-              <span className="text-[9px] font-black uppercase tracking-wider text-[#5B6350] dark:text-[#A0A898] block">Kelas / Halaqah</span>
-              <span className="text-sm font-bold text-[#1C2620] dark:text-[#EDEAE2] block">
-                {selectedChild.kelas ? selectedChild.kelas : 'Belum Ditentukan'}
-              </span>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              {Array.from({ length: 12 }, (_, i) => {
+                const bulanIndex = i + 1;
+                const record = iurans.find(r => r.bulan === bulanIndex && r.tahun === 2026);
+                const isLunas = record?.status === 'lunas';
+                
+                return (
+                  <div 
+                    key={bulanIndex} 
+                    className={`p-3 rounded-2xl border text-center transition-all ${
+                      isLunas 
+                        ? 'bg-[#5B7553]/10 border-[#5B7553]/20 dark:bg-[#5B7553]/25 dark:border-[#5B7553]/35' 
+                        : 'bg-slate-50 border-slate-100 dark:bg-slate-800/40 dark:border-slate-800/60'
+                    }`}
+                  >
+                    <span className="text-[10px] font-black text-[#5B6350] dark:text-[#A0A898] block uppercase tracking-wider">
+                      {NAMA_BULAN[i]}
+                    </span>
+                    <Badge className={`mt-2 font-black text-[9px] uppercase px-2 py-0.5 rounded-md ${
+                      isLunas 
+                        ? 'bg-[#5B7553] text-[#F7F5F0] hover:bg-[#5B7553]' 
+                        : 'bg-slate-200 text-slate-500 dark:bg-slate-800 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-800 border-0 shadow-none'
+                    }`}>
+                      {isLunas ? 'Lunas' : 'Belum Lunas'}
+                    </Badge>
+                    {isLunas && record.tanggal_konfirmasi && (
+                      <span className="text-[8px] text-[#5B6350] dark:text-[#A0A898] block mt-1.5 font-bold">
+                        {new Date(record.tanggal_konfirmasi).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                      </span>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

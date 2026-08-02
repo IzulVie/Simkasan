@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\KelasController;
 use App\Http\Controllers\Api\NilaiController;
 use App\Http\Controllers\Api\SantriController;
 use App\Http\Controllers\Api\WaliSantriController;
+use App\Http\Controllers\Api\IuranController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/hafalan', [HafalanController::class, 'index']);
     Route::get('/nilai', [NilaiController::class, 'index']);
     Route::get('/kegiatan', [KegiatanController::class, 'index']);
+    Route::get('/iuran', [IuranController::class, 'index']);
 
     // Admin & Ustadz routes (Write access)
     Route::middleware('role:admin|ustadz')->group(function () {
@@ -46,5 +48,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('/kelas', KelasController::class);
         Route::apiResource('/santris', SantriController::class);
         Route::apiResource('/wali-santris', WaliSantriController::class);
+
+        // Iuran Management
+        Route::post('/iuran/generate', [IuranController::class, 'generate']);
+        Route::put('/iuran/{id}/lunas', [IuranController::class, 'lunas']);
     });
 });

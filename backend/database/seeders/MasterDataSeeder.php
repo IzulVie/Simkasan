@@ -9,6 +9,7 @@ use App\Models\Nilai;
 use App\Models\Santri;
 use App\Models\User;
 use App\Models\WaliSantri;
+use App\Models\Iuran;
 use Illuminate\Database\Seeder;
 
 class MasterDataSeeder extends Seeder
@@ -173,5 +174,45 @@ class MasterDataSeeder extends Seeder
             'waktu' => '09:00 - 12:00',
             'deskripsi' => 'Evaluasi bulanan kurikulum tahfidz dan kegiatan belajar santri.',
         ]);
+
+        // 7. Seed mock iurans
+        $adminUser = User::where('email', 'admin@simkasan.com')->first();
+        $adminId = $adminUser ? $adminUser->id : 1;
+
+        $students = [$s1, $s2, $s3, $s4];
+        foreach ($students as $student) {
+            // Months 1 to 6 (Lunas)
+            for ($m = 1; $m <= 6; $m++) {
+                Iuran::create([
+                    'santri_id' => $student->id,
+                    'bulan' => $m,
+                    'tahun' => 2026,
+                    'status' => 'lunas',
+                    'dikonfirmasi_oleh' => $adminId,
+                    'tanggal_konfirmasi' => '2026-07-01 10:00:00',
+                    'keterangan' => 'Pembayaran lunas dikonfirmasi otomatis via seeder.',
+                ]);
+            }
+
+            // Month 7 (July) - some lunas, some not
+            $isPaidJuly = in_array($student->id, [$s1->id, $s4->id]);
+            Iuran::create([
+                'santri_id' => $student->id,
+                'bulan' => 7,
+                'tahun' => 2026,
+                'status' => $isPaidJuly ? 'lunas' : 'belum_lunas',
+                'dikonfirmasi_oleh' => $isPaidJuly ? $adminId : null,
+                'tanggal_konfirmasi' => $isPaidJuly ? '2026-07-28 14:30:00' : null,
+                'keterangan' => $isPaidJuly ? 'Lunas via transfer Bank Syariah.' : null,
+            ]);
+
+            // Month 8 (August) - all belum_lunas
+            Iuran::create([
+                'santri_id' => $student->id,
+                'bulan' => 8,
+                'tahun' => 2026,
+                'status' => 'belum_lunas',
+            ]);
+        }
     }
 }

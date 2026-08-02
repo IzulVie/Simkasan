@@ -17,7 +17,8 @@ import {
   Bell,
   Settings,
   HelpCircle,
-  Award
+  Award,
+  Wallet
 } from 'lucide-react';
 import { Button } from './ui/button';
 
@@ -102,6 +103,12 @@ export const SidebarLayout = () => {
       title: 'Master Data',
       path: '/master-data',
       icon: Users,
+      show: isAdmin
+    },
+    {
+      title: 'Iuran & Syahriah',
+      path: '/iuran',
+      icon: Wallet,
       show: isAdmin
     },
     {

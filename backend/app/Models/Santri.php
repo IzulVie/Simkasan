@@ -62,4 +62,12 @@ class Santri extends Model
     {
         return $this->hasMany(Nilai::class, 'santri_id');
     }
+
+    /**
+     * Get the payment (iuran) records for the santri.
+     */
+    public function iurans(): HasMany
+    {
+        return $this->hasMany(Iuran::class, 'santri_id');
+    }
 }
